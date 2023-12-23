@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generative AI Demo</title>
+  <style>
+      /* Reset some default styles for consistency across browsers */
+  body, h1, p, input, button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Header styling */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+  }
+  
+  header h1 {
+    font-size: 28px;
+  }
+  
+  /* Form styling */
+  form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 10px;
+  }
+  
+  .gen {
+    background-color: #f26722;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+  }
+  
+  .gen:hover {
+    background-color: #e45f1b;
+  }
+  
+  /* Result container styling */
+  #resultContainer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add this CSS to your existing styles.css */
+
+.uploadOuter {
+  text-align: center;
+  padding: 20px;
+}
+
+.uploadOuter strong {
+  padding: 0 10px;
+}
+
+.dragBox {
+  width: 250px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  line-height: 95px;
+  color: #999;
+  border: 2px dashed #ccc;
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.dragBox input[type="file"] {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}
+
+.draging {
+  transform: scale(1.1);
+}
+
+#preview {
+  text-align: center;
+}
+
+#preview img {
+  max-width: 100%;
+}
+
+  /* Footer styling */
+  footer {
+    margin-top: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .uploadOuter {
+    margin-right: 20px; /* Optional: Add some spacing between the upload section and the preview */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+/* Add this CSS to your existing styles */
+#preview {
+  max-width: 200px; /* Adjust the maximum width as needed */
+  margin-top: 20px; /* Add some spacing between the upload section and the preview */
+}
+
+#preview img {
+  max-width: 100%;
+  height: auto;
+}
+#copyButton {
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+
+#copyButton {
+
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+}
+.final{
+  display: flex;
+}
+#resultContainer{
+  width: 300px;
+}
+
+#copyButton img {
+  width: 16px; /* Adjust the size as needed */
+  height: 16px; /* Adjust the size as needed */
+  margin-right: 5px;
+}
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 20px;
+    }
+  
+    header h1 {
+      font-size: 24px;
+    }
+  }
+  
+    </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Generative AI Demo</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="uploadOuter">
+      <form method="post" action="app.js">
+        <label for="imgInput" class="btn btn-primary">Upload Image</label>
+        <strong>OR</strong>
+        <span class="dragBox" ondragover="drag()" ondrop="drop()">
+          Drag and Drop image here
+          <input type="file" onchange="dragNdrop(event)" id="imgInput"/>
+        </span>
+        <button type="button" class="gen" onclick="generateContent()">Generate Content</button>
+      </form>
+    </div>
+    <div id="preview"></div>
+  </div>
+  
+  <div class="final">
+
+    <div id="resultContainer"></div>
+    <button id="copyButton" onclick="copyResult()">
+      <img src="icons8-copy-24.png" alt="Copy Icon">
+    </button>
+  </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      &copy; 2023 Generative AI Demo
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
