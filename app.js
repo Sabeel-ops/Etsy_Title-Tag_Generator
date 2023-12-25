@@ -27,9 +27,10 @@ app.post('/generateContent', bodyParser.json({ limit: '50mb' }), async (req, res
   console.log('Request received:', req.body);
   try {
     const imageData = req.body.imageData;
+    const text = req.body.text;
 
     const parts = [
-      { text: "Generate SEO optimized Etsy titles and tags for the product in the image that will rank well on Etsy\n" },
+      { text: `${text}\n` },
       { inlineData: { mimeType: "image/jpeg", data: imageData } },
     ];
 
@@ -43,6 +44,7 @@ app.post('/generateContent', bodyParser.json({ limit: '50mb' }), async (req, res
     res.status(500).json({ error: 'Error generating content' });
   }
 });
+
 
 
 app.listen(port, () => {

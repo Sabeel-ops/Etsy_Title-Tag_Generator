@@ -24,7 +24,8 @@ async function generateContent() {
     console.log('Generating content...');
     
     const imageInput = document.getElementById('imgInput');
-    const resultContainer = document.getElementById('resultContainer');
+    const resultContainer1 = document.getElementById('resultContainer1');
+    const resultContainer2 = document.getElementById('resultContainer2');
     const preview = document.getElementById('preview');
 
     if (imageInput.files.length > 0) {
@@ -41,26 +42,41 @@ async function generateContent() {
 
       console.log('Image preview set.');
 
-      // Use fetch to make the AJAX request
-      const response = await fetch('http://localhost:4000/generateContent', {
+      // Use fetch to make the AJAX requests
+      const response1 = await fetch('http://localhost:4000/generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ imageData }),
+        body: JSON.stringify({ imageData, text: 'Generate an SEO optimized Etsy title for this product that will rank well on Etsy' }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Generated text:', result.result);
-        resultContainer.innerHTML = `<p>${result.result}</p>`;
+      const response2 = await fetch('http://localhost:4000/generateContent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imageData, text: 'Generate 20 SEO optimized Etsy tags separated by commas for this product that will rank well on Etsy. Do not enclose them in quotes' }),
+      });
+
+      if (response1.ok && response2.ok) {
+        const result1 = await response1.json();
+        const result2 = await response2.json();
+        
+        console.log('Generated texts:', result1.result, result2.result);
+        
+        // Display both generated texts in separate containers
+        resultContainer1.innerHTML = `<p>${result1.result}</p>`;
+        resultContainer2.innerHTML = `<p>${result2.result}</p>`;
       } else {
-        console.error('Error generating content:', response.statusText);
-        resultContainer.innerHTML = "<p>Error generating content.</p>";
+        console.error('Error generating content:', response1.statusText, response2.statusText);
+        resultContainer1.innerHTML = "<p>Error generating content.</p>";
+        resultContainer2.innerHTML = "<p>Error generating content.</p>";
       }
     } else {
       console.log('No image selected.');
-      resultContainer.innerHTML = "<p>Please select an image.</p>";
+      resultContainer1.innerHTML = "<p>Please select an image.</p>";
+      resultContainer2.innerHTML = "<p>Please select an image.</p>";
     }
   } catch (error) {
     console.error('Error generating content:', error);
@@ -84,8 +100,8 @@ function readFileAsBase64(file) {
 }
 
 function copyResult() {
-  const resultContainer = document.getElementById('resultContainer');
-  const resultText = resultContainer.innerText;
+  const resultContainer1 = document.getElementById('resultContainer1');
+  const resultText = resultContainer1.innerText;
 
   // Create a textarea element to temporarily hold the text
   const textarea = document.createElement('textarea');
@@ -105,4 +121,24 @@ function copyResult() {
   alert('Result copied to clipboard!');
 }
 
+function copyResult2() {
+  const resultContainer2 = document.getElementById('resultContainer2');
+  const resultText = resultContainer2.innerText;
 
+  // Create a textarea element to temporarily hold the text
+  const textarea = document.createElement('textarea');
+  textarea.value = resultText;
+
+  // Append the textarea to the document
+  document.body.appendChild(textarea);
+
+  // Select and copy the text from the textarea
+  textarea.select();
+  document.execCommand('copy');
+
+  // Remove the textarea from the document
+  document.body.removeChild(textarea);
+
+  // Provide some feedback, e.g., alert or console.log
+  alert('Result copied to clipboard!');
+}

@@ -17,13 +17,25 @@
     background-color: #f5f5f5;
     color: #333;
   }
+  .newbody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    min-height: 100vh;
+    margin: 0;
+  }
   
   .container {
-    max-width: 1200px;
+
     margin: 0 auto;
     padding: 20px;
   }
-  
+  .container2 {
+
+    margin: 0 auto;
+    padding: 20px;
+  }
   h1 {
     font-size: 24px;
     font-weight: bold;
@@ -51,7 +63,6 @@
   input[type="file"] {
     margin-bottom: 10px;
   }
-  
   .gen {
     background-color: #f26722;
     color: #fff;
@@ -59,6 +70,7 @@
     cursor: pointer;
     border: none;
     font-size: 16px;
+    margin-top: 10px;
   }
   
   .gen:hover {
@@ -66,7 +78,7 @@
   }
   
   /* Result container styling */
-  #resultContainer {
+  #resultContainer1 {
     margin-top: 20px;
     padding: 10px;
     background-color: #fff;
@@ -74,6 +86,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
+  #resultContainer2 {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
   /* Add this CSS to your existing styles.css */
 
 .uploadOuter {
@@ -130,12 +149,20 @@
   }
   .container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .container2 {
+    display: flex;
     flex-direction: row;
     align-items: center;
+    text-align: center;
   }
-  
   .uploadOuter {
     margin-right: 20px; /* Optional: Add some spacing between the upload section and the preview */
+    display: flex;
+    flex-direction: column;
   }
   
   form {
@@ -175,11 +202,16 @@
 }
 .final{
   display: flex;
+  align-items: center;
+  gap: 10px;
+ 
 }
-#resultContainer{
+#resultContainer1{
   width: 300px;
 }
-
+#resultContainer2{
+  width: 300px;
+}
 #copyButton img {
   width: 16px; /* Adjust the size as needed */
   height: 16px; /* Adjust the size as needed */
@@ -201,11 +233,11 @@
 <body>
   <header>
     <div class="container">
-      <h1>Generative AI Demo</h1>
+      <h1 class="tite">Etsy Titles & Tags Generator</h1>
     </div>
   </header>
-
-  <div class="container">
+<div class="newbody">
+  <div class="container2">
     <div class="uploadOuter">
       <form method="post" action="app.js">
         <label for="imgInput" class="btn btn-primary">Upload Image</label>
@@ -221,20 +253,25 @@
   </div>
   
   <div class="final">
-
-    <div id="resultContainer"></div>
+    <p>Title:</p>
+    <div id="resultContainer1"></div>
     <button id="copyButton" onclick="copyResult()">
-      <img src="icons8-copy-24.png" alt="Copy Icon">
+      <img src="copy-icon.svg" alt="Copy Icon">
     </button>
   </div>
+
+
+  <div class="final">
+    <p>Tags:</p>
+    <div id="resultContainer2"></div>
+    <button id="copyButton" onclick="copyResult2()">
+      <img src="copy-icon.svg" alt="Copy Icon">
+    </button>
   </div>
 
-  <footer>
-    <div class="container">
-      &copy; 2023 Generative AI Demo
-    </div>
-  </footer>
-
+  </div>
+</div>
+ 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="script.js"></script>
 </body>
