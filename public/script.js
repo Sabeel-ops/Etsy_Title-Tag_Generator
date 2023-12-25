@@ -22,7 +22,7 @@ function drop() {
 async function generateContent() {
   try {
     console.log('Generating content...');
-    
+
     const imageInput = document.getElementById('imgInput');
     const resultContainer1 = document.getElementById('resultContainer1');
     const resultContainer2 = document.getElementById('resultContainer2');
@@ -30,7 +30,7 @@ async function generateContent() {
 
     if (imageInput.files.length > 0) {
       console.log('Image selected.');
-      
+
       const imageFile = imageInput.files[0];
       const imageData = await readFileAsBase64(imageFile);
 
@@ -42,36 +42,50 @@ async function generateContent() {
 
       console.log('Image preview set.');
 
-      // Use fetch to make the AJAX requests
+      // Use fetch to make the first AJAX request
       const response1 = await fetch('http://localhost:4000/generateContent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ imageData, text: 'Generate an SEO optimized Etsy title for this product that will rank well on Etsy' }),
+        body: JSON.stringify({
+          imageData,
+          text: 'Generate an SEO optimized Etsy title for this product that will rank well on Etsy',
+        }),
       });
 
-      const response2 = await fetch('http://localhost:4000/generateContent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ imageData, text: 'Generate 20 SEO optimized Etsy tags separated by commas for this product that will rank well on Etsy. Do not enclose them in quotes' }),
-      });
-
-      if (response1.ok && response2.ok) {
+      if (response1.ok) {
         const result1 = await response1.json();
-        const result2 = await response2.json();
-        
-        console.log('Generated texts:', result1.result, result2.result);
-        
-        // Display both generated texts in separate containers
+        console.log('Generated first text:', result1.result);
+
+        // Display the generated text in the first container
         resultContainer1.innerHTML = `<p>${result1.result}</p>`;
-        resultContainer2.innerHTML = `<p>${result2.result}</p>`;
+
+        // Now proceed with the second AJAX request
+        const response2 = await fetch('http://localhost:4000/generateContent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageData,
+            text: 'Generate 20 SEO optimized Etsy tags separated by commas for this product that will rank well on Etsy. Do not enclose them in quotes',
+          }),
+        });
+
+        if (response2.ok) {
+          const result2 = await response2.json();
+          console.log('Generated second text:', result2.result);
+
+          // Display the generated text in the second container
+          resultContainer2.innerHTML = `<p>${result2.result}</p>`;
+        } else {
+          console.error('Error generating content:', response2.statusText);
+          resultContainer2.innerHTML = "<p>Error generating content.</p>";
+        }
       } else {
-        console.error('Error generating content:', response1.statusText, response2.statusText);
+        console.error('Error generating content:', response1.statusText);
         resultContainer1.innerHTML = "<p>Error generating content.</p>";
-        resultContainer2.innerHTML = "<p>Error generating content.</p>";
       }
     } else {
       console.log('No image selected.');
